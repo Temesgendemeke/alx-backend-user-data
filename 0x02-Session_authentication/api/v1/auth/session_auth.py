@@ -27,10 +27,11 @@ class SessionAuth(Auth):
             return None
         return self.user_id_by_session_id.get(session_id)
     
-    def current_user(self, request=None):
-        """ Current user based on session ID """
-        session_id = self.session_cookie(request)
-        user_id = self.user_id_for_session_id(session_id)
-        if user_id:
-            return User.get(user_id)
-        return None
+    def current_user(self, request=None) -> Union[TypeVar('User'), None]:
+        """
+        Holds the current authenticated logged in user
+        """
+        User.load_from_file()
+        return User.get(
+            self.user_id_for_session_id(self.session_cookie(request))
+        )
