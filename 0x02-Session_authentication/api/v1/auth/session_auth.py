@@ -15,14 +15,14 @@ class SessionAuth(Auth):
     """
     user_id_by_session_id = {}
 
-    def create_session(self, user_id: str = None) -> str:
+    def create_session(self, user_id: str = None) -> Union[str, None]:
         """ Create session """
         if user_id is None or type(user_id) is not str:
             return None
         session_id = str(uuid4())
         if session_id is None:
             return None
-        self.user_id_by_session_id[session_id] = user_id
+        self.user_id_by_session_id.update({session_id: user_id})
         return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
