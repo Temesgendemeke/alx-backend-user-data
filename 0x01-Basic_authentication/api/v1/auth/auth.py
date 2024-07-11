@@ -9,7 +9,7 @@ class Auth:
     """ Auth class
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """Require auth with support for wildcard '*' at the end of excluded paths."""
+        """Require auth with support for wildcard"""
         if path is None or excluded_paths is None or not excluded_paths:
             return True
         if not path.endswith('/'):
