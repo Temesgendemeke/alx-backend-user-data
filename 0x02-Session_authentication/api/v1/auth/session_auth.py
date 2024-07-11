@@ -19,7 +19,7 @@ class SessionAuth(Auth):
         """ Create session """
         if user_id is None or type(user_id) is not str:
             return None
-        session_id = uuid4()
+        session_id = str(uuid4())
         if session_id is None:
             return None
         self.user_id_by_session_id[session_id] = user_id
