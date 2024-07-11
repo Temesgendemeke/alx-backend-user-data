@@ -25,22 +25,22 @@ if os.getenv("AUTH_TYPE") == 'session_auth':
     auth = SessionAuth()
 
 @app.before_request
-def pre_request():
-    """ Befor request handler
+def request_filter() -> str:
     """
-    if auth is None:
-        return
-    if auth.require_auth(request.path, ['/api/v1/status/',
-                                        '/api/v1/unauthorized/',
-                                        '/api/v1/forbidden/',
-                                        '/api/v1/auth_session/login/']):
-        if auth.authorization_header(request) and auth.authorization_header(request):
+    Checks if the requested path requires authentication
+    """
+    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
+                      '/api/v1/forbidden/', '/api/v1/auth_session/login/']
+    if auth is not None and auth.require_auth(request.path, excluded_paths):
+        if (
+            auth.authorization_header(request) is None
+            and auth.session_cookie(request) is None
+        ):
             return None, abort(401)
-        if auth.authorization_header(request) is None:
-            abort(401)
-        if auth.current_user(request) is None:
+        current_user = auth.current_user(request)
+        if current_user is None:
             abort(403)
-    request.current_user = auth.current_user(request)
+        request.current_user = current_user
 
 
 @app.errorhandler(404)
