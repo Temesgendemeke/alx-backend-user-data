@@ -3,10 +3,9 @@
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
-
 engine = create_engine("sqlite:///user.db", echo=False)
 Base = declarative_base()
+
 
 class User(Base):
     """User model"""
@@ -19,5 +18,6 @@ class User(Base):
 
     def __repr__(self):
         return f"<User(name='{self.name}')>"
+
 
 Base.metadata.create_all(engine)
