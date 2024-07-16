@@ -9,7 +9,6 @@ from user import User
 from typing import Union
 
 
-
 class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
