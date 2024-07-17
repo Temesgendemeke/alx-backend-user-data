@@ -7,6 +7,8 @@ from sqlalchemy.orm.session import Session
 from user import Base
 from user import User
 from typing import Union
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -44,11 +46,10 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user by a given attribute
         """
-        user = self.find_user_by(id=user_id)
-        if user:
+        try:
+            user = self.find_user_by(id=user_id)
             for key, value in kwargs.items():
                 setattr(user, key, value)
             self._session.commit()
-            return None
-        else:
+        except NoResultFound and InvalidRequestError:
             raise ValueError
