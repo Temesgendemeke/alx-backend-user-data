@@ -44,12 +44,14 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
-        """Update a user by a given attribute
-        """
+        """Update a user by a given attribute."""
         try:
             user = self.find_user_by(id=user_id)
+            valid_keys = all(hasattr(user, key) for key in kwargs.keys())
+            if not valid_keys:
+                raise ValueError
             for key, value in kwargs.items():
                 setattr(user, key, value)
             self._session.commit()
-        except NoResultFound and InvalidRequestError:
+        except (NoResultFound, InvalidRequestError):
             raise ValueError
