@@ -6,12 +6,13 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import Base
 from user import User
-from typing import Union
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
+    """DB class
+    """
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
