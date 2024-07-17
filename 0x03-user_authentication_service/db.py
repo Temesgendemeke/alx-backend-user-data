@@ -44,7 +44,7 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> Union[User, None]:
         """Update a user by a given attribute
         """
-        user = self._session.query(User).filter_by(id=user_id).first()
+        user = self.find_user_by(id=user_id)
         if user:
             for key, value in kwargs.items():
                 setattr(user, key, value)
