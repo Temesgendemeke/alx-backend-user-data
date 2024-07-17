@@ -9,11 +9,12 @@ import uuid
 from typing import Union
 
 
-def _hash_password(passsword: str) -> str:
+def _hash_password(password: str) -> str:
     """Hash a password
     """
     salt = bcrypt.gensalt()
-    return bcrypt.hashpw(passsword.encode('utf-8'), salt)
+    hashed = bcrypt.hashpw(password.encode(), salt)
+    return hashed
 
 
 class Auth:
