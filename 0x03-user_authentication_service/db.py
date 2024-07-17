@@ -41,7 +41,7 @@ class DB:
         user = self._session.query(User).filter_by(**kwargs).one()
         return user
 
-    def update_user(self, user_id: int, **kwargs) -> Union[User, None]:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user by a given attribute
         """
         user = self.find_user_by(id=user_id)
@@ -49,5 +49,6 @@ class DB:
             for key, value in kwargs.items():
                 setattr(user, key, value)
             self._session.commit()
-            return user
-        return None
+            return None
+        else:
+            raise ValueError
